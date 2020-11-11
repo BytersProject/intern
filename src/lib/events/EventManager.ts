@@ -33,7 +33,7 @@ export class EventManager implements Component {
      * @private
 	 */
 	protected addEvent(event: Event) {
-		if (typeof event.handle !== 'function') throw new Error('Event run must be a function.');
+		if (typeof event.handle !== 'function') throw new Error('Event run method must be a function.');
 		if (typeof event.options !== 'object') throw new Error('Event options must be an object.');
 		if (this.events.has(event.name)) throw new Error('Event already exists with this name.');
 

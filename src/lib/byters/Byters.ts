@@ -29,10 +29,7 @@ export class Byters implements Component {
 
 		this.api.forwardEvents(
 			this.gateway,
-			Object.keys(GatewayDispatchEvents)
-				// @ts-expect-error No index signature with a parameter of type 'string' was found on type 'typeof GatewayDispatchEvents'.ts(7053)
-				.map((key: string) => GatewayDispatchEvents[key])
-				.filter((x: string) => !(Number(x) >= 0))
+			Object.values(GatewayDispatchEvents)
 		);
 		this.gatewayEvents = extractEventSubscriptions(this.name, this.api);
 
