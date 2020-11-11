@@ -2,7 +2,6 @@ import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/ben
 import { Broker, Brokers } from '@byters/brokers.js';
 import { GatewayDispatchEvents } from 'discord-api-types';
 import { Intern } from '../Intern';
-import { InternVariable } from '../InternVariable';
 import { extractEventSubscriptions } from '../utils/extractEventSubscriptions';
 
 export class Byters implements Component {
@@ -21,19 +20,21 @@ export class Byters implements Component {
 		await this.connectGateway();
 	}
 
+	/**
+	 * @since 0.0.1
+	 * @description Connects to the gateway using the broker and susbcribes to used gateway events.
+	 */
 	public async connectGateway() {
-		const gatewayBroker = this.api.getVariable({
-			name: InternVariable.INTERN_GATEWAY_BROKER
-		}) as Broker<any, any> | typeof Broker;
-		this.gateway = new Brokers(
-			typeof (gatewayBroker as any).prototype === 'undefined'
-				// @ts-expect-error This expression is not constructable. Not all constituents of type 'Broker<any, any, ResponseOptions<unknown>> | typeof Broker' are constructable. Type 'Broker<any, any, ResponseOptions<unknown>>' has no construct signatures.ts(2351)
-				? new gatewayBroker(...this.intern.options.gateway.broker.constructorParams)
-				: gatewayBroker
-		);
+		this.gateway = new Brokers(this.intern.options.gateway.broker.instance);
 
-		this.api.forwardEvents(this.gateway, Object.keys(GatewayDispatchEvents));
-		this.gatewayEvents = extractEventSubscriptions('Byters', this.api);
+		this.api.forwardEvents(
+			this.gateway,
+			Object.keys(GatewayDispatchEvents)
+				// @ts-expect-error No index signature with a parameter of type 'string' was found on type 'typeof GatewayDispatchEvents'.ts(7053)
+				.map((key: string) => GatewayDispatchEvents[key])
+				.filter((x: string) => !(Number(x) >= 0))
+		);
+		this.gatewayEvents = extractEventSubscriptions(this.name, this.api);
 
 		await this.gateway.start(...this.intern.options.gateway.broker.startParameters);
 
