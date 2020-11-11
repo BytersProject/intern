@@ -1,14 +1,22 @@
 import { FSComponentLoader, Plugin, PluginAPI } from '@ayanaware/bento';
 import Byters from './byters';
 import * as path from 'path';
+import { Broker } from '@byters/brokers.js';
 
 // TODO: Add version based on package.json
-export class Intern implements Plugin {
+export class Intern<B extends Broker<any, any>> implements Plugin {
 
 	public name = 'Intern';
 	public api!: PluginAPI;
 
+	public options: Options<B>;
+
 	public fsLoader!: FSComponentLoader;
+
+	public constructor(options: Options<B>) {
+		this.options = options;
+	}
+
 
 	public async onLoad() {
 		this.fsLoader = new FSComponentLoader();
@@ -19,4 +27,17 @@ export class Intern implements Plugin {
 		await this.api.bento.addComponent(byters);
 	}
 
+}
+
+export interface BrokerOptions<B extends Broker<any, any> = Broker<any, any>> {
+	constructorParams?: any[];
+	startParameters: Parameters<B['start']>;
+}
+
+export interface GatewayOptions<B extends Broker<any, any> = Broker<any, any>> {
+	broker: BrokerOptions<B>;
+}
+
+export interface Options<B extends Broker<any, any> = Broker<any, any>> {
+	gateway: GatewayOptions<B>;
 }

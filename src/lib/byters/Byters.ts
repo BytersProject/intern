@@ -1,8 +1,9 @@
-import { Component, ComponentAPI, /* Inject, */ PluginReference, Subscribe } from '@ayanaware/bento';
-import { EntityEvents, EntityEventSubscription } from '@ayanaware/bento/build/entities/internal/EntityEvents';
-import { Brokers } from '@byters/brokers.js';
-import { AMQpBroker } from '@byters/brokers.js-amqp';
+import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/bento';
+import { Broker, Brokers } from '@byters/brokers.js';
+import { GatewayDispatchEvents } from 'discord-api-types';
 import { Intern } from '../Intern';
+import { InternVariable } from '../InternVariable';
+import { extractEventSubscriptions } from '../utils/extractEventSubscriptions';
 
 export class Byters implements Component {
 
@@ -12,7 +13,7 @@ export class Byters implements Component {
 
 	public gateway!: Brokers;
 
-	// @Inject(Intern) private intern: Intern;
+	@Inject(Intern) private intern!: Intern<Broker<any, any>>;
 
 	private gatewayEvents: Set<string> = new Set();
 
@@ -21,39 +22,24 @@ export class Byters implements Component {
 	}
 
 	public async connectGateway() {
-		// TODO(QuantumlyTangled): Allow custom broker
-		this.gateway = new Brokers(new AMQpBroker('gatewaygo', {
-			exchange: {
-				durable: true
-			}
-		}));
+		const gatewayBroker = this.api.getVariable({
+			name: InternVariable.INTERN_GATEWAY_BROKER
+		}) as Broker<any, any> | typeof Broker;
+		this.gateway = new Brokers(
+			typeof (gatewayBroker as any).prototype === 'undefined'
+				// @ts-expect-error This expression is not constructable. Not all constituents of type 'Broker<any, any, ResponseOptions<unknown>> | typeof Broker' are constructable. Type 'Broker<any, any, ResponseOptions<unknown>>' has no construct signatures.ts(2351)
+				? new gatewayBroker(...this.intern.options.gateway.broker.constructorParams)
+				: gatewayBroker
+		);
 
-		this.api.forwardEvents(this.gateway, [
-			'MESSAGE_CREATE'
-		]);
+		this.api.forwardEvents(this.gateway, Object.keys(GatewayDispatchEvents));
+		this.gatewayEvents = extractEventSubscriptions('Byters', this.api);
 
-		await this.gateway.start('localhost:32779');
-
-		// Definitely refactor this once it becomes "official"
-		// In the event that you need motivation feel free to listen to https://www.youtube.com/watch?v=SETnK2ny1R0
-		// #region Shady shady code
-		const entityEvents = (this.api as any).bento.entities.events.get('Byters') as EntityEvents;
-		if (!entityEvents) return;
-
-		for (const [, subscription] of ((entityEvents as any).subscriptions as Map<number, EntityEventSubscription>)) {
-			this.gatewayEvents.add(subscription.name);
-		}
-		// #endregion Shady shady code
+		await this.gateway.start(...this.intern.options.gateway.broker.startParameters);
 
 		await this.gateway.subscribe([
 			...this.gatewayEvents
 		]);
-	}
-
-	@Subscribe(Byters, 'MESSAGE_CREATE')
-	public handleMessageCreate(data: any, { ack }: { ack: any }) {
-		ack();
-		console.log(data);
 	}
 
 }
