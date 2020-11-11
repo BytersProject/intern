@@ -1,6 +1,6 @@
 {
     "name": "@byters/intern",
-    "description": "Framework/Library powered by Spectacles and Byters for Advance Discord Bots.",
+    "description": "Framework/Library for Stateless and Microserviced Discord Bots powered by BytersProject.",
     "version": "0.0.1",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
