@@ -2,7 +2,7 @@ import { FSComponentLoader, Plugin, PluginAPI } from '@ayanaware/bento';
 import Byters from './byters';
 import * as path from 'path';
 import { mergeDefault } from '@sapphire/utilities';
-import { defaults } from './constants';
+import { internOptionDefaults } from './constants';
 import { Broker } from '@byters/brokers.js';
 
 // TODO: Add version based on package.json
@@ -18,7 +18,7 @@ export class Intern<
 	public fsLoader!: FSComponentLoader;
 
 	public constructor(options?: Options<GW>) {
-		this.options = mergeDefault(defaults, options) as Options<GW>;
+		this.options = mergeDefault(internOptionDefaults, options) as Options<GW>;
 	}
 
 	public setOptions(options: Options<GW>) {

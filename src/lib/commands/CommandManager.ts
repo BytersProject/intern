@@ -5,6 +5,8 @@ import { InternVariable } from '../InternVariable';
 import { Command } from './interfaces';
 import { Byters } from '../byters';
 import { ResponseOptions } from '@byters/brokers.js';
+import { mergeDefault } from '@sapphire/utilities';
+import { commandOptionDefaults } from '../constants';
 
 export class CommandManager implements Component {
 
@@ -64,23 +66,24 @@ export class CommandManager implements Component {
      * @private
 	 */
 	protected addCommand(command: Command) {
-		if (typeof command.handle !== 'function') throw new Error('Command run method must be a function.');
+		if (typeof command.run !== 'function') throw new Error('Command run method must be a function.');
 		if (typeof command.options !== 'object') throw new Error('Command options must be an object.');
 		if (this.commands.has(command.name)) throw new Error('Command already exists with this name.');
 
-		const { options } = command;
-		this.commands.set(command.name, command);
+		const options = mergeDefault(commandOptionDefaults, command.options);
 
-		if (options.aliases) {
-			const clashes = options.aliases!.filter(alias => this.aliases.has(alias));
-			if (clashes.length > 0) throw new Error('The alias already exists in a command.');
+		const clashes = options.aliases!.filter(alias => this.aliases.has(alias));
+		if (clashes.length > 0) throw new Error('The alias already exists in a command.');
 
-			options.aliases.push(command.name);
-			for (let alias of options.aliases!) {
-				alias = alias.toLowerCase();
-				this.aliases.set(alias, command.name);
-			}
+		options.aliases.push(command.name);
+		for (let alias of options.aliases) {
+			alias = alias.toLowerCase();
+			this.aliases.set(alias, command.name);
 		}
+
+		command.options = options;
+
+		this.commands.set(command.name, command);
 	}
 
 	/**

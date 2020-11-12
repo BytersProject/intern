@@ -1,6 +1,6 @@
 export interface CommandOptions {
-	description: string;
-	detailedDescription: string;
-	aliases?: Array<string>;
+	description?: string;
+	detailedDescription?: string;
+	aliases?: string[];
 	// todo: arguments?: Array<Argument>;
 }

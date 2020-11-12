@@ -297,24 +297,19 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@byters/brokers.js-amqp@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@byters/brokers.js-amqp/-/brokers.js-amqp-0.2.3.tgz#32d5aa00a70d12c0ee4c407becdff2942c45fa7f"
-  integrity sha512-++5NHnqV4cN51TpoEHJPR+sgBz3NUTC1j5jZO7CFPU//L4Zciv+FpXXcustXt7oQWsXsubMsjKf9zjkXvaHobw==
+"@byters/brokers.js-amqp@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@byters/brokers.js-amqp/-/brokers.js-amqp-0.2.5.tgz#93a28501095a99baf4ff8c439a9d0f0d76cf7568"
+  integrity sha512-hIgFnGoQkRQP4gPXKjsmJmp8XTxjUDl70chcpIBUtJenliRoAelD3ckcYac0uD+Z++4cei5qTjFG/u+1xMtw/g==
   dependencies:
-    "@byters/brokers.js" "^0.4.5"
+    "@byters/brokers.js" "^0.5.1"
     amqplib "^0.6.0"
     ulid "^2.3.0"
 
-"@byters/brokers.js@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@byters/brokers.js/-/brokers.js-0.4.5.tgz#ad353573aad3a79644c6692881d5e620e5fb1cdc"
-  integrity sha512-zcTrfZ+K36E4tv8eUjUpjoiUoGQiKVS+YlxM5xSfG6/Bzr34s5mBcJ8ID5Raw+YrzMecXep0k0OxZ1rEpw0LnA==
-
-"@byters/brokers.js@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@byters/brokers.js/-/brokers.js-0.5.0.tgz#15ef8ae91e403626df839266812ba218588fcaeb"
-  integrity sha512-4ex/2US7kbRCw0m4l7olYWuuz4iWGxnJQD4iW711LfGD42PDDUZtFr9U21IF4XXZRlzAb9dxG6EZWbYYLL24Jg==
+"@byters/brokers.js@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@byters/brokers.js/-/brokers.js-0.5.1.tgz#ed69d742981e8ba683612958d613589943c16fab"
+  integrity sha512-vupEYFP9yW/heFdAxor+JsOJK3Y6df38DPAESrb1CTKOzmjSd1pYT3/tFbE71TwgArLrd9fkIlvuLz/8bReeRw==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"

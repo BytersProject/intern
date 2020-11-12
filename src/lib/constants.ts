@@ -1,7 +1,8 @@
 import { Options } from './Intern';
 import { AMQpBroker } from '@byters/brokers.js-amqp';
+import { CommandOptions } from './commands/interfaces';
 
-export const defaults: Options = {
+export const internOptionDefaults: Options = {
 	gateway: {
 		broker: {
 			instance: new AMQpBroker('gateway', {
@@ -12,4 +13,8 @@ export const defaults: Options = {
 			startParameters: ['localhost']
 		}
 	}
+};
+
+export const commandOptionDefaults: CommandOptions = {
+	aliases: []
 };

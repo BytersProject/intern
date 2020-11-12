@@ -6,5 +6,5 @@ export interface Command extends Component {
 	parent: Entity;
 	options: CommandOptions;
 
-	handle(...args: any): Promise<any>;
+	run(...args: any): Promise<any>;
 }
