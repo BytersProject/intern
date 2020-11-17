@@ -12,6 +12,11 @@
 ## Description
 Framework/Library for Stateless and Microserviced Discord Bots powered by [BytersProject](https://github.com/BytersProject).
 
+## Features
+- Command Handler
+- Event Handler
+- Caching Manager (WIP)
+
 ## Documentation
 Coming Soon
 
@@ -32,3 +37,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## Credits
+This project is based on and uses snippets of codes from the workings of [Bentocord](https://gitlab.com/ayanaware/bentocord) by AyanaWare.
