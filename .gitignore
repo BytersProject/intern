@@ -941,3 +941,5 @@ MigrationBackup/
 !tsconfig.base.json
 !tsconfig.eslint.json
 !tsconfig.json
+
+docs/

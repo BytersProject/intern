@@ -26,6 +26,7 @@
         "prepublishOnly": "yarn build",
         "lint": "eslint src --ext ts --fix",
         "update": "yarn upgrade-interactive --latest",
+        "docs": "typedoc",
         "build": "tsc -b src",
         "clean": "tsc -b src --clean",
         "watch": "tsc -b src -w",
@@ -62,6 +63,8 @@
         "standard-version": "^9.0.0",
         "ts-jest": "^26.4.2",
         "ts-node": "^9.0.0",
+        "typedoc": "^0.19.2",
+        "typedoc-plugin-nojekyll": "^1.0.1",
         "typescript": "^4.0.3"
     },
     "engines": {

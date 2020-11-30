@@ -6,12 +6,28 @@ import { GatewayDispatchEvents } from 'discord-api-types';
 
 export class EventManager implements Component {
 
+	/**
+	 * @since 0.0.1
+	 */
 	public name = 'EventManager';
+	/**
+	 * @since 0.0.1
+	 */
 	public api!: ComponentAPI;
+	/**
+	 * @since 0.0.1
+	 */
 	public parent: Plugin = Byters;
 
+	/**
+	 * @since 0.0.1
+	 * @private
+	 */
 	private readonly events: Map<string, Event> = new Map();
 
+	/**
+	 * @since 0.0.1
+	 */
 	public async onChildLoad(entity: Event) {
 		try {
 			await this.addEvent(entity);
@@ -20,6 +36,9 @@ export class EventManager implements Component {
 		}
 	}
 
+	/**
+	 * @since 0.0.1
+	 */
 	public async onChildUnload(entity: Event) {
 		try {
 			await this.removeEvent(entity);

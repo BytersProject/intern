@@ -18,9 +18,14 @@ export class Intern<GW extends Broker<any, any>> implements Plugin {
 	public fsLoader!: FSComponentLoader;
 
 	public constructor(options?: Options<GW>) {
-		this.options = mergeDefault(internOptionDefaults, options) as Options<GW>;
+		this.options = mergeDefault(internOptionDefaults as any, options) as Options<GW>;
 	}
 
+	/**
+	 * Replaces the currently stored options at {@link Intern.options}.
+	 * @param options The options which should overwrite {@link Intern.options}.
+	 * @since 0.0.1
+	 */
 	public setOptions(options: Options<GW>) {
 		this.options = options;
 		return this;
@@ -47,20 +52,50 @@ export class Intern<GW extends Broker<any, any>> implements Plugin {
 
 }
 
+/**
+ * @since 0.0.1
+ */
 export interface BrokerOptions<B extends Broker<any, any> = Broker<any, any>> {
+	/**
+	 * @since 0.0.1
+	 */
 	instance: B;
+	/**
+	 * @since 0.0.1
+	 */
 	startParameters: Parameters<B['start']>;
 }
 
+/**
+ * @since 0.0.1
+ */
 export interface GatewayOptions<GW extends Broker<any, any> = Broker<any, any>> {
+	/**
+	 * @since 0.0.1
+	 */
 	broker: BrokerOptions<GW>;
 }
 
-export interface Options<GW extends Broker<any, any> = Broker<any, any>> {
-	gateway: GatewayOptions<GW>;
-	client?: ClientOptions;
+/**
+ * @since 0.0.1
+ */
+export interface ClientOptions {
+	/**
+	 * @since 0.0.1
+	 */
+	prefix: string;
 }
 
-export interface ClientOptions {
-	prefix: string;
+/**
+ * @since 0.0.1
+ */
+export interface Options<GW extends Broker<any, any> = Broker<any, any>> {
+	/**
+	 * @since 0.0.1
+	 */
+	gateway: GatewayOptions<GW>;
+	/**
+	 * @since 0.0.1
+	 */
+	client?: ClientOptions;
 }
