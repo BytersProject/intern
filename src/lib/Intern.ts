@@ -5,7 +5,9 @@ import { mergeDefault } from '@sapphire/utilities';
 import { internOptionDefaults } from './constants';
 import { Broker } from '@byters/brokers.js';
 import { CommandManager } from '..';
+import ArgumentManager from './arguments';
 import EventManager from './events';
+import { InternVariable } from './InternVariable';
 
 // TODO: Add version based on package.json
 export class Intern<GW extends Broker<any, any>> implements Plugin {
@@ -42,12 +44,17 @@ export class Intern<GW extends Broker<any, any>> implements Plugin {
 		const byters: Byters = await (this.fsLoader as any).createInstance(path.resolve(__dirname, 'byters'));
 		await this.api.bento.addComponent(byters);
 
+		const argumentManager: ArgumentManager = await (this.fsLoader as any).createInstance(path.resolve(__dirname, 'arguments'));
+		await this.api.bento.addComponent(argumentManager);
+
 		const commandManager: CommandManager = await (this.fsLoader as any).createInstance(path.resolve(__dirname, 'commands'));
 		await this.api.bento.addComponent(commandManager);
 
 		const eventManager: EventManager = await (this.fsLoader as any).createInstance(path.resolve(__dirname, 'events'));
 		await this.api.bento.addComponent(eventManager);
 
+		const loadBuiltinArguments = this.api.getVariable({ 'name': InternVariable.INTERN_BUILTIN_ARGUMENTS, 'default': true });
+		if (loadBuiltinArguments) return this.api.loadComponents(this.fsLoader, __dirname, 'arguments', 'builtin');
 	}
 
 }

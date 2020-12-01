@@ -2,11 +2,13 @@
 import { Component, ComponentAPI, Plugin, Variable, Subscribe } from '@ayanaware/bento';
 import { Intern } from '../Intern';
 import { InternVariable } from '../InternVariable';
-import { Command } from './interfaces';
+import { Command } from './Command';
 import { Byters } from '../byters';
 import { ResponseOptions } from '@byters/brokers.js';
 import { mergeDefault } from '@sapphire/utilities';
 import { commandOptionDefaults } from '../constants';
+import { APIMessage } from 'discord-api-types';
+import { CommandContext } from './CommandContext';
 
 export class CommandManager implements Component {
 
@@ -96,9 +98,32 @@ export class CommandManager implements Component {
 	}
 
 	@Subscribe(Byters, 'MESSAGE_CREATE')
-	protected createMessage(data: unknown, { ack }: ResponseOptions) {
+	protected async createMessage(data: APIMessage, { ack }: ResponseOptions) {
 		ack();
-		// todo: a lot of things
+		const prefixes = this.prefix;
+		const parsedPrefix = this.getPrefix(data.content, prefixes);
+		if (parsedPrefix === null) return null;
+
+		const prefixLess = data.content.slice(parsedPrefix.length).trim();
+		const spaceIndex = prefixLess.indexOf(' ');
+		const name = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
+
+		const command = this.findCommand(name);
+		// todo: no command found handler
+		if (command === null) return null;
+
+		const parameters = spaceIndex === -1 ? '' : prefixLess.substr(spaceIndex + 1).trim();
+
+		const args = await command.preParse(data, parameters);
+
+		const ctx = new CommandContext(command, data, args);
+		await command.run(ctx, args);
+	}
+
+	private getPrefix(content: string, prefixes: readonly string[] | string | null): string | null {
+		if (prefixes === null) return null;
+		if (typeof prefixes === 'string') return content.startsWith(prefixes) ? prefixes : null;
+		return prefixes.find(prefix => content.startsWith(prefix)) ?? null;
 	}
 
 }
