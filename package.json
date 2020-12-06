@@ -39,8 +39,10 @@
         "@byters/brokers.js": "^0.5.1",
         "@byters/brokers.js-amqp": "^0.2.5",
         "@sapphire/utilities": "^1.1.0",
+        "@spectacles/rest": "^0.8.3",
         "discord-api-types": "^0.8.0",
         "eris": "^0.14.0",
+        "ioredis": "^4.19.2",
         "lexure": "^0.17.0"
     },
     "devDependencies": {
@@ -49,6 +51,7 @@
         "@jest/types": "^26.6.1",
         "@quantumly/eslint-config": "^1.1.0",
         "@types/amqplib": "^0.5.16",
+        "@types/ioredis": "^4.17.8",
         "@types/jest": "^26.0.15",
         "@types/module-alias": "^2.0.0",
         "@types/node": "^14.14.7",
