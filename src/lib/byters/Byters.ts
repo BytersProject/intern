@@ -1,8 +1,10 @@
 import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/bento';
 import { Broker, Brokers } from '@byters/brokers.js';
 import { GatewayDispatchEvents } from 'discord-api-types';
+import * as path from 'path';
 import { Intern } from '../Intern';
 import { extractEventSubscriptions } from '../utils/extractEventSubscriptions';
+import { Rest } from './rest';
 
 export class Byters implements Component {
 
@@ -38,6 +40,11 @@ export class Byters implements Component {
 		await this.gateway.subscribe([
 			...this.gatewayEvents
 		]);
+	}
+
+	public async loadRest() {
+		const rest: Rest = await (this.intern.fsLoader as any).createInstance(path.resolve(__dirname, 'rest'));
+		await this.intern.api.bento.addComponent(rest);
 	}
 
 }

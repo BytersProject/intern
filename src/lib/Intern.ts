@@ -17,10 +17,11 @@ export class Intern<GW extends Broker<any, any>> implements Plugin {
 
 	public options: Options<GW>;
 
-	public fsLoader!: FSComponentLoader;
+	public fsLoader: FSComponentLoader = new FSComponentLoader();
 
 	public constructor(options?: Options<GW>) {
 		this.options = mergeDefault(internOptionDefaults as any, options) as Options<GW>;
+		this.fsLoader.name = 'InternFSComponentLoader';
 	}
 
 	/**
@@ -37,8 +38,6 @@ export class Intern<GW extends Broker<any, any>> implements Plugin {
 	 * @since 0.0.1
 	 */
 	public async onLoad() {
-		this.fsLoader = new FSComponentLoader();
-		this.fsLoader.name = 'InternFSComponentLoader';
 		await this.api.bento.addPlugin(this.fsLoader);
 
 		const byters: Byters = await (this.fsLoader as any).createInstance(path.resolve(__dirname, 'byters'));

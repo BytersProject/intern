@@ -11,7 +11,7 @@ export class Guild implements Component {
 	@Inject() private rest!: Rest;
 
 	public addGuildMemberRole(guildID: string, memberID: string, roleID: string, reason: string) {
-		return this.rest.restHandler.put(Routes.guildMemberRole(guildID, memberID, roleID), {
+		return this.rest.handler.put(Routes.guildMemberRole(guildID, memberID, roleID), {
 			reason
 		});
 	}

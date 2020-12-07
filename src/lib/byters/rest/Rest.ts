@@ -9,9 +9,12 @@ export class Rest implements Component {
 	public api!: ComponentAPI;
 	public parent: PluginReference = Byters;
 
+	/**
+	 * @deprecated
+	 */
 	public redisClient = new Redis();
 	// todo: get token and redis client from intern/bento
-	public restHandler = new SpecRest('token', {
+	public handler = new SpecRest('token', {
 		mutex: new RedisMutex(this.redisClient, 'rest')
 	});
 

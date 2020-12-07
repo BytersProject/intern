@@ -7,7 +7,7 @@ import { Byters } from '../byters';
 import { ResponseOptions } from '@byters/brokers.js';
 import { mergeDefault } from '@sapphire/utilities';
 import { commandOptionDefaults } from '../constants';
-import { APIMessage } from 'discord-api-types';
+import { APIMessage, GatewayDispatchEvents } from 'discord-api-types';
 import { CommandContext } from './CommandContext';
 
 export class CommandManager implements Component {
@@ -97,7 +97,7 @@ export class CommandManager implements Component {
 		if (!command) throw new Error('Could not find a command with that alias.');
 	}
 
-	@Subscribe(Byters, 'MESSAGE_CREATE')
+	@Subscribe(Byters, GatewayDispatchEvents.MessageCreate)
 	protected async createMessage(data: APIMessage, { ack }: ResponseOptions) {
 		ack();
 		const prefixes = this.prefix;
