@@ -12,7 +12,7 @@ export class Byters implements Component {
 
 	public gateway!: Brokers;
 
-	@Inject(Intern) private intern!: Intern<Broker<any, any>>;
+	@Inject() private intern!: Intern<Broker<any, any>>;
 
 	private gatewayEvents: Set<string> = new Set();
 
