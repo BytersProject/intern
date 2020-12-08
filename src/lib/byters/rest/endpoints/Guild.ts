@@ -1,6 +1,6 @@
 import { Routes } from 'discord-api-types';
 import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/bento';
-import { Rest } from './Rest';
+import { Rest } from '../Rest';
 
 export class Guild implements Component {
 
