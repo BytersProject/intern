@@ -17,3 +17,5 @@ export class Guild implements Component {
 	}
 
 }
+
+export default Guild;

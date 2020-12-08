@@ -20,6 +20,7 @@ export class Byters implements Component {
 
 	public async onLoad() {
 		await this.connectGateway();
+		await this.loadRest();
 	}
 
 	/**
