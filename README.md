@@ -15,10 +15,12 @@ Framework/Library for Stateless and Microserviced Discord Bots powered by [Byter
 ## Features
 - Command Handler
 - Event Handler
+- REST Methods
+- Arguments Handler
 - Caching Manager (WIP)
 
 ## Documentation
-Coming Soon
+TypeDOC generated documentation can be found [here](https://bytersproject.github.io/intern).
 
 ## Guides
 Coming Soon
