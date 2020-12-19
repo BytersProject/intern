@@ -1,13 +1,39 @@
 import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/bento';
 import {
+	RESTDeleteAPIGuildBanResult,
+	RESTDeleteAPIGuildMemberResult,
+	RESTDeleteAPIGuildMemberRoleResult,
+	RESTDeleteAPIGuildResult,
+	RESTDeleteAPIGuildRoleResult,
+	RESTGetAPIGuildBanResult,
+	RESTGetAPIGuildBansResult,
 	RESTGetAPIGuildChannelsResult,
+	RESTGetAPIGuildEmojiResult,
+	RESTGetAPIGuildEmojisResult,
+	RESTGetAPIGuildInvitesResult,
 	RESTGetAPIGuildMemberResult,
 	RESTGetAPIGuildResult,
+	RESTGetAPIGuildRolesResult,
+	RESTGetAPIGuildVanityUrlResult,
+	RESTGetAPIGuildVoiceRegionsResult,
+	RESTGetAPIGuildWidgetImageResult,
+	RESTGetAPIGuildWidgetResult,
 	RESTPatchAPIGuildChannelPositionsJSONBody,
 	RESTPatchAPIGuildChannelPositionsResult,
 	RESTPatchAPIGuildJSONBody,
+	RESTPatchAPIGuildMemberJSONBody,
+	RESTPatchAPIGuildRoleJSONBody,
+	RESTPatchAPIGuildRolePositionsJSONBody,
+	RESTPatchAPIGuildRolePositionsResult,
+	RESTPatchAPIGuildRoleResult,
+	RESTPatchAPIGuildWidgetSettingsJSONBody,
+	RESTPatchAPIGuildWidgetSettingsResult,
 	RESTPostAPIGuildChannelJSONBody,
 	RESTPostAPIGuildChannelResult,
+	RESTPostAPIGuildRoleJSONBody,
+	RESTPostAPIGuildRoleResult,
+	RESTPutAPIGuildBanJSONBody,
+	RESTPutAPIGuildBanResult,
 	RESTPutAPIGuildMemberRoleResult,
 	Routes
 } from 'discord-api-types';
@@ -21,6 +47,7 @@ export class Guild implements Component {
 
 	@Inject() private rest!: Rest;
 
+	// CORE GUILD
 	public get(guildID: string) {
 		return this.rest.handler.get(Routes.guild(guildID)) as Promise<RESTGetAPIGuildResult>;
 	}
@@ -29,6 +56,39 @@ export class Guild implements Component {
 		return this.rest.handler.patch(Routes.guild(guildID), update) as Promise<RESTGetAPIGuildResult>;
 	}
 
+	public leave(guildID: string) {
+		return this.rest.handler.delete(Routes.guild(guildID)) as Promise<RESTDeleteAPIGuildResult>;
+	}
+
+	public getBans(guildID: string) {
+		return this.rest.handler.get(Routes.guildBans(guildID)) as Promise<RESTGetAPIGuildBansResult>;
+	}
+
+	public voiceRegion(guildID: string) {
+		return this.rest.handler.get(Routes.guildVoiceRegions(guildID)) as Promise<RESTGetAPIGuildVoiceRegionsResult>;
+	}
+
+	public getInvites(guildID: string) {
+		return this.rest.handler.get(Routes.guildInvites(guildID)) as Promise<RESTGetAPIGuildInvitesResult>;
+	}
+
+	public vanity(guildID: string) {
+		return this.rest.handler.get(Routes.guildVanityUrl(guildID)) as Promise<RESTGetAPIGuildVanityUrlResult>;
+	}
+
+	public getWidget(guildID: string) {
+		return this.rest.handler.get(Routes.guildWidget(guildID)) as Promise<RESTGetAPIGuildWidgetResult>;
+	}
+
+	public updateWidget(guildID: string, data: RESTPatchAPIGuildWidgetSettingsJSONBody) {
+		return this.rest.handler.patch(Routes.guildWidgetSettings(guildID), data) as Promise<RESTPatchAPIGuildWidgetSettingsResult>;
+	}
+
+	public getWidgetImage(guildID: string) {
+		return this.rest.handler.get(Routes.guildWidgetImage(guildID)) as Promise<RESTGetAPIGuildWidgetImageResult>;
+	}
+
+	// CHANNELS
 	public getChannels(guildID: string) {
 		return this.rest.handler.get(Routes.guildChannels(guildID)) as Promise<RESTGetAPIGuildChannelsResult>;
 	}
@@ -41,8 +101,31 @@ export class Guild implements Component {
 		return this.rest.handler.patch(Routes.guildChannels(guildID), data) as Promise<RESTPatchAPIGuildChannelPositionsResult>;
 	}
 
+	// MEMBERS
 	public getMember(guildID: string, memberID: string) {
 		return this.rest.handler.get(Routes.guildMember(guildID, memberID)) as Promise<RESTGetAPIGuildMemberResult>;
+	}
+
+	public kickMember(guildId: string, memberID: string, reason?: string) {
+		return this.rest.handler.delete(Routes.guildMember(guildId, memberID), {
+			reason
+		}) as Promise<RESTDeleteAPIGuildMemberResult>;
+	}
+
+	public updateMember(guildID: string, memberID: string, data: RESTPatchAPIGuildMemberJSONBody) {
+		return this.rest.handler.patch(Routes.guildMember(guildID, memberID), data) as Promise<RESTPatchAPIGuildMemberJSONBody>;
+	}
+
+	public getBan(guildID: string, memberID: string) {
+		return this.rest.handler.get(Routes.guildBan(guildID, memberID)) as Promise<RESTGetAPIGuildBanResult>;
+	}
+
+	public ban(guildID: string, memberID: string, data: RESTPutAPIGuildBanJSONBody) {
+		return this.rest.handler.put(Routes.guildBan(guildID, memberID), data) as Promise<RESTPutAPIGuildBanResult>;
+	}
+
+	public unban(guildID: string, memberID: string) {
+		return this.rest.handler.delete(Routes.guildBan(guildID, memberID)) as Promise<RESTDeleteAPIGuildBanResult>;
 	}
 
 	// Yea idk how to pass a proper body here for the query
@@ -52,10 +135,46 @@ export class Guild implements Component {
 	}
 	*/
 
+	// ROLES
+	public getRoles(guildID: string) {
+		return this.rest.handler.get(Routes.guildRoles(guildID)) as Promise<RESTGetAPIGuildRolesResult>;
+	}
+
+	public createRole(guildID: string, data: RESTPostAPIGuildRoleJSONBody) {
+		return this.rest.handler.post(Routes.guildRoles(guildID), data) as Promise<RESTPostAPIGuildRoleResult>;
+	}
+
+	public moveRole(guildID: string, data: RESTPatchAPIGuildRolePositionsJSONBody) {
+		return this.rest.handler.patch(Routes.guildRoles(guildID), data) as Promise<RESTPatchAPIGuildRolePositionsResult>;
+	}
+
+	public updateRole(guildID: string, roleID: string, data: RESTPatchAPIGuildRoleJSONBody) {
+		return this.rest.handler.patch(Routes.guildRole(guildID, roleID), data) as Promise<RESTPatchAPIGuildRoleResult>;
+	}
+
+	public deleteRole(guildID: string, roleID: string) {
+		return this.rest.handler.delete(Routes.guildRole(guildID, roleID)) as Promise<RESTDeleteAPIGuildRoleResult>;
+	}
+
 	public addMemberRole(guildID: string, memberID: string, roleID: string, reason: string) {
 		return this.rest.handler.put(Routes.guildMemberRole(guildID, memberID, roleID), {
 			reason
 		}) as Promise<RESTPutAPIGuildMemberRoleResult>;
+	}
+
+	public removeMemberRole(guildID: string, memberID: string, roleID: string, reason: string) {
+		return this.rest.handler.delete(Routes.guildMemberRole(guildID, memberID, roleID), {
+			reason
+		}) as Promise<RESTDeleteAPIGuildMemberRoleResult>;
+	}
+
+	// EMOJIS
+	public getEmoji(guildId: string, emojiID: string) {
+		return this.rest.handler.get(Routes.guildEmoji(guildId, emojiID)) as Promise<RESTGetAPIGuildEmojiResult>;
+	}
+
+	public getEmojis(guildId: string) {
+		return this.rest.handler.get(Routes.guildEmojis(guildId)) as Promise<RESTGetAPIGuildEmojisResult>;
 	}
 
 }
