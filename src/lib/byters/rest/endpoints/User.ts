@@ -10,7 +10,7 @@ import {
 } from 'discord-api-types';
 import { Rest } from '../Rest';
 
-export class Guild implements Component {
+export class User implements Component {
 
 	public name = 'RestUser';
 	public api!: ComponentAPI;

@@ -30,7 +30,7 @@ import {
 } from 'discord-api-types';
 import { Rest } from '../Rest';
 
-export class Guild implements Component {
+export class Channel implements Component {
 
 	public name = 'RestChannel';
 	public api!: ComponentAPI;
@@ -82,18 +82,14 @@ export class Guild implements Component {
 		return this.rest.handler.delete(Routes.channelPin(channelID, messageID), {}) as Promise<RESTDeleteAPIChannelPinResult>;
 	}
 
-	/* todo: can't figure out how to do queries
-	public getMessages(channelID: string, query: RESTGetAPIChannelMessagesQuery) {
+	/* public getMessages(channelID: string, query: RESTGetAPIChannelMessagesQuery) {
 		return this.rest.handler.get(Routes.channelMessages(channelID), {
-			body: {
-				limit: query.limit || 100,
-				before: query.before,
-				after: query.after,
-				around: query.around
-			}
+			limit: query.limit || 100,
+			before: query.before,
+			after: query.after,
+			around: query.around
 		}) as Promise<RESTGetAPIChannelMessagesResult>;
-	}
-	*/
+	}*/
 
 	public getMessage(channelID: string, messageID: string) {
 		return this.rest.handler.get(Routes.channelMessage(channelID, messageID)) as Promise<RESTGetAPIChannelMessageResult>;
