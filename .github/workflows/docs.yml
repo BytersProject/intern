@@ -57,4 +57,4 @@ jobs:
                   git commit -m "docs: api docs build for ${GITHUB_SHA}" || true
                   git push origin $TARGET_BRANCH
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_SECRET }}
+                  GITHUB_TOKEN: ${{ secrets.PENGU_SECRET }}
