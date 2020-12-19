@@ -1,6 +1,7 @@
 import { Component, ComponentAPI, Inject, PluginReference } from '@ayanaware/bento';
 import {
 	RESTDeleteAPIGuildBanResult,
+	RESTDeleteAPIGuildEmojiResult,
 	RESTDeleteAPIGuildMemberResult,
 	RESTDeleteAPIGuildMemberRoleResult,
 	RESTDeleteAPIGuildResult,
@@ -19,6 +20,8 @@ import {
 	RESTGetAPIGuildWidgetResult,
 	RESTPatchAPIGuildChannelPositionsJSONBody,
 	RESTPatchAPIGuildChannelPositionsResult,
+	RESTPatchAPIGuildEmojiJSONBody,
+	RESTPatchAPIGuildEmojiResult,
 	RESTPatchAPIGuildJSONBody,
 	RESTPatchAPIGuildMemberJSONBody,
 	RESTPatchAPIGuildRoleJSONBody,
@@ -29,6 +32,8 @@ import {
 	RESTPatchAPIGuildWidgetSettingsResult,
 	RESTPostAPIGuildChannelJSONBody,
 	RESTPostAPIGuildChannelResult,
+	RESTPostAPIGuildEmojiJSONBody,
+	RESTPostAPIGuildEmojiResult,
 	RESTPostAPIGuildRoleJSONBody,
 	RESTPostAPIGuildRoleResult,
 	RESTPutAPIGuildBanJSONBody,
@@ -65,6 +70,10 @@ export class Guild implements Component {
 
 	public voiceRegion(guildID: string) {
 		return this.rest.handler.get(Routes.guildVoiceRegions(guildID)) as Promise<RESTGetAPIGuildVoiceRegionsResult>;
+	}
+
+	public voiceRegions() {
+		return this.rest.handler.get(Routes.voiceRegions()) as Promise<RESTGetAPIGuildVoiceRegionsResult>;
 	}
 
 	public getInvites(guildID: string) {
@@ -171,8 +180,20 @@ export class Guild implements Component {
 	}
 
 	// EMOJIS
+	public createEmoji(guildId: string, data: RESTPostAPIGuildEmojiJSONBody) {
+		return this.rest.handler.post(Routes.guildEmojis(guildId), data) as Promise<RESTPostAPIGuildEmojiResult>;
+	}
+
 	public getEmoji(guildId: string, emojiID: string) {
 		return this.rest.handler.get(Routes.guildEmoji(guildId, emojiID)) as Promise<RESTGetAPIGuildEmojiResult>;
+	}
+
+	public updateEmoji(guildId: string, emojiID: string, data: RESTPatchAPIGuildEmojiJSONBody) {
+		return this.rest.handler.patch(Routes.guildEmoji(guildId, emojiID), data) as Promise<RESTPatchAPIGuildEmojiResult>;
+	}
+
+	public deleteEmoji(guildId: string, emojiID: string) {
+		return this.rest.handler.delete(Routes.guildEmoji(guildId, emojiID)) as Promise<RESTDeleteAPIGuildEmojiResult>;
 	}
 
 	public getEmojis(guildId: string) {
