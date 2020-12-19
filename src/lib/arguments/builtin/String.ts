@@ -1,6 +1,6 @@
 import { Argument } from '../Argument';
 
-export class BeehiveString extends Argument {
+export class InternString extends Argument {
 
 	public name = 'string';
 
