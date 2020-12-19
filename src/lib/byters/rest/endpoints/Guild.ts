@@ -11,8 +11,6 @@ import {
 	RESTGetAPIGuildEmojiResult,
 	RESTGetAPIGuildEmojisResult,
 	RESTGetAPIGuildInvitesResult,
-	RESTGetAPIGuildMemberResult,
-	RESTGetAPIGuildMembersQuery,
 	RESTGetAPIGuildResult,
 	RESTGetAPIGuildRolesResult,
 	RESTGetAPIGuildVanityUrlResult,
@@ -53,7 +51,7 @@ export class Guild implements Component {
 		return this.rest.handler.get(Routes.guild(guildID)) as Promise<RESTGetAPIGuildResult>;
 	}
 
-	public modify(guildID: string, update: RESTPatchAPIGuildJSONBody) {
+	public update(guildID: string, update: RESTPatchAPIGuildJSONBody) {
 		return this.rest.handler.patch(Routes.guild(guildID), update) as Promise<RESTGetAPIGuildResult>;
 	}
 
@@ -103,6 +101,7 @@ export class Guild implements Component {
 	}
 
 	// MEMBERS
+	/* todo: can't figure out how to do queries
 	public getMembers(guildID: string, query: RESTGetAPIGuildMembersQuery) {
 		let queryString = '';
 		if (query.limit) queryString += `?limit=${query.limit}`;
@@ -114,6 +113,7 @@ export class Guild implements Component {
 	public getMember(guildID: string, memberID: string) {
 		return this.rest.handler.get(Routes.guildMember(guildID, memberID)) as Promise<RESTGetAPIGuildMemberResult>;
 	}
+	*/
 
 	public kickMember(guildId: string, memberID: string, reason?: string) {
 		return this.rest.handler.delete(Routes.guildMember(guildId, memberID), {

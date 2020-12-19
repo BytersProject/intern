@@ -43,7 +43,8 @@
         "discord-api-types": "^0.8.0",
         "eris": "^0.14.0",
         "ioredis": "^4.19.2",
-        "lexure": "^0.17.0"
+        "lexure": "^0.17.0",
+        "node-fetch": "^2.6.1"
     },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
