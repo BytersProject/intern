@@ -12,6 +12,7 @@ import {
 	RESTGetAPIGuildEmojisResult,
 	RESTGetAPIGuildInvitesResult,
 	RESTGetAPIGuildMemberResult,
+	RESTGetAPIGuildMembersQuery,
 	RESTGetAPIGuildResult,
 	RESTGetAPIGuildRolesResult,
 	RESTGetAPIGuildVanityUrlResult,
@@ -102,6 +103,14 @@ export class Guild implements Component {
 	}
 
 	// MEMBERS
+	public getMembers(guildID: string, query: RESTGetAPIGuildMembersQuery) {
+		let queryString = '';
+		if (query.limit) queryString += `?limit=${query.limit}`;
+		if (query.after) queryString += `&after=${query.after}`;
+
+		return this.rest.handler.get(Routes.guildMembers(guildID) + queryString) as Promise<RESTGetAPIGuildMemberResult>;
+	}
+
 	public getMember(guildID: string, memberID: string) {
 		return this.rest.handler.get(Routes.guildMember(guildID, memberID)) as Promise<RESTGetAPIGuildMemberResult>;
 	}
@@ -127,13 +136,6 @@ export class Guild implements Component {
 	public unban(guildID: string, memberID: string) {
 		return this.rest.handler.delete(Routes.guildBan(guildID, memberID)) as Promise<RESTDeleteAPIGuildBanResult>;
 	}
-
-	// Yea idk how to pass a proper body here for the query
-	/*
-	public getMembers(guildID: string, data: RESTGetAPIGuildMembersQuery) {
-		return this.rest.handler.get(Routes.guildMembers(guildID), {  }) as Promise<RESTGetAPIGuildMemberResult>;
-	}
-	*/
 
 	// ROLES
 	public getRoles(guildID: string) {
