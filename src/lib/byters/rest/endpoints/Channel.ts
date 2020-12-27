@@ -51,19 +51,19 @@ export class Channel implements Component {
 	}
 
 	public editPermissions(channelID: string, overwriteID: string, data: RESTPutAPIChannelPermissionsJSONBody) {
-		return this.rest.handler.put(Routes.channelPermissions(channelID, overwriteID), data) as Promise<RESTPutAPIChannelPermissionsResult>;
+		return this.rest.handler.put(Routes.channelPermission(channelID, overwriteID), data) as Promise<RESTPutAPIChannelPermissionsResult>;
 	}
 
 	public deletePermissions(channelID: string, overwriteID: string) {
-		return this.rest.handler.delete(Routes.channelPermissions(channelID, overwriteID)) as Promise<RESTDeleteAPIChannelPermissionsResult>;
+		return this.rest.handler.delete(Routes.channelPermission(channelID, overwriteID)) as Promise<RESTDeleteAPIChannelPermissionsResult>;
 	}
 
 	public getInvites(channelID: string) {
-		return this.rest.handler.get(Routes.channelInvite(channelID)) as Promise<RESTGetAPIChannelInvitesResult>;
+		return this.rest.handler.get(Routes.channelInvites(channelID)) as Promise<RESTGetAPIChannelInvitesResult>;
 	}
 
 	public createInvite(channelID: string, data: RESTPostAPIChannelInviteJSONBody) {
-		return this.rest.handler.post(Routes.channelInvite(channelID), data) as Promise<RESTGetAPIInviteResult>;
+		return this.rest.handler.post(Routes.channelInvites(channelID), data) as Promise<RESTGetAPIInviteResult>;
 	}
 
 	public triggerTyping(channelID: string) {
@@ -100,7 +100,7 @@ export class Channel implements Component {
 	}
 
 	public crosspost(channelID: string, messageID: string) {
-		return this.rest.handler.post(Routes.channelCrosspost(channelID, messageID), {}) as Promise<RESTPostAPIChannelMessageCrosspostResult>;
+		return this.rest.handler.post(Routes.channelMessageCrosspost(channelID, messageID), {}) as Promise<RESTPostAPIChannelMessageCrosspostResult>;
 	}
 
 	public createOwnReaction(channelID: string, messageID: string, emojiID: string) {
@@ -116,11 +116,11 @@ export class Channel implements Component {
 	}
 
 	public getReaction(channelID: string, messageID: string, emojiID: string) {
-		return this.rest.handler.get(Routes.channelMessageSpecificReaction(channelID, messageID, emojiID)) as Promise<RESTGetAPIChannelMessageReactionsResult>;
+		return this.rest.handler.get(Routes.channelMessageReaction(channelID, messageID, emojiID)) as Promise<RESTGetAPIChannelMessageReactionsResult>;
 	}
 
 	public deleteReaction(channelID: string, messageID: string, emojiID: string) {
-		return this.rest.handler.delete(Routes.channelMessageSpecificReaction(channelID, messageID, emojiID)) as Promise<RESTDeleteAPIChannelMessageReactionResult>;
+		return this.rest.handler.delete(Routes.channelMessageReaction(channelID, messageID, emojiID)) as Promise<RESTDeleteAPIChannelMessageReactionResult>;
 	}
 
 	public deleteReactions(channelID: string, messageID: string) {

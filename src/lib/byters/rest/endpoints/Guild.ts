@@ -85,7 +85,7 @@ export class Guild implements Component {
 	}
 
 	public getWidget(guildID: string) {
-		return this.rest.handler.get(Routes.guildWidget(guildID)) as Promise<RESTGetAPIGuildWidgetResult>;
+		return this.rest.handler.get(Routes.guildWidgetJSON(guildID)) as Promise<RESTGetAPIGuildWidgetResult>;
 	}
 
 	public updateWidget(guildID: string, data: RESTPatchAPIGuildWidgetSettingsJSONBody) {
